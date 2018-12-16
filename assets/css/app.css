@@ -1,0 +1,58 @@
+/* This file is for your main application css. */
+
+@import "./phoenix.css";
+body{
+    font-size: 0.9em
+}
+
+.bordered {
+    border-bottom: 1px solid #fff
+}
+.center-align-text {
+    text-align: center;
+    color: #000
+}
+.grid-style {
+    padding: 25px
+}
+col.grid-example {
+    border: 1px solid #eee;
+    margin: 2px 0;
+    text-align: center;
+    line-height: 50px;
+    font-size: 20px;
+    background-color: tomato;
+    color: white;
+    padding: 0;
+}
+div.container.transactions {
+    margin: 0% 3% 3% 11%
+}
+div.row {
+    margin-bottom:1px
+}
+
+.scale-transactions {
+    margin: 0 3% 3% 33%;
+    width: 250px
+}
+
+.help-block {
+    color: red;
+    text-transform: capitalize;
+    position: absolute;
+    top: 60px;
+    font-weight: bolder
+}
+.form-group {
+    position: relative;
+    margin-bottom: 25px;
+}
+div.row .col.s6 {
+    width: 100%;
+}
+
+ul > li > span {
+    font-size: 2em;
+    padding: 20px;
+}

@@ -1,0 +1,28 @@
+
+<div class="row">
+    <%= form_for @changeset, Routes.transaction_path(@conn, :new), fn f -> %>
+    <div class="col s12">
+            <div class="row">
+                <div class="input-field col s6">
+                    <%= text_input f, :description, placeholder: "ex: sky monthly subscription", class: "validate"%>
+                    <%= error_tag f, :description%>
+                </div>
+                 <div class="input-field col s6">
+                    <%= text_input f, :merchant, placeholder: "ex: SKY", class: "validate"%>
+                    <%= error_tag f, :merchant%>
+                </div>
+
+                <div class="input-field col s6">
+                    <%= text_input f, :value, placeholder: "ex: 25", class: "validate"%>
+                    <%= error_tag f, :value%>
+                </div>
+                
+                
+            </div>
+        </div>
+
+        <div class="input-field col s6">
+                    <%= submit "Save record", class: "btn waves-effect waves-light" %>
+        </div>
+    <% end %>
+</div>

@@ -1,0 +1,21 @@
+<h5>Transactions</h5>
+
+<ul class="collection">
+  <%= for transaction <- @transactions do %>
+    <li class="collection-item">
+      <%= transaction.description %> 
+      <%= content_tag(:span,  "£#{transaction.value}" , class: "") %>
+      <div class="right">
+        
+        <%= link "Delete", to: Routes.transaction_path(@conn, :delete, transaction), method: :delete, class: "waves-effect waves-light btn-small red" %>
+      </div>
+       <br /> <%= transaction.merchant %>
+    </li>
+  <% end %>
+</ul>
+
+<div class="fixed-action-btn">
+  <%= link to: Routes.transaction_path(@conn, :create), class: "btn-floating btn-large waves-effect waves-light red" do %>
+    <i class="material-icons">add</i>
+  <% end %>
+</div>
