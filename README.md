@@ -54,7 +54,7 @@ This app is built on Elixir which runs on the BEAM VM. Since it is naturally des
 
 Here is a small load test that was done on the api using a tool called `wrk`. The app is set to run in `PROD` mode.
 **Environment**: Macbook Pro development machine (multiple other process running)
-Cores: 8
+Cores: 8 (only 4 used as other 4 is dedicated for VMWare)
 RAM: 16GB
 
 **Configuration**
