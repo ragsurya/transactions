@@ -1,3 +1,3 @@
 defmodule TransactionsWeb.LayoutViewTest do
-  use TransactionsWeb.ConnCase, async: true
+  #use TransactionsWeb.ConnCase, async: true
 end
