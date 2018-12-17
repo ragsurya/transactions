@@ -73,6 +73,5 @@ total time: 100 seconds
 ## Application screenshots
 
 ![image](https://user-images.githubusercontent.com/32263069/50114184-d4524c00-023b-11e9-905f-1b32374fafda.png)
-![image](https://user-images.githubusercontent.com/32263069/50113924-38284500-023b-11e9-8a09-fe536ed8b7d8.png)
 ![image](https://user-images.githubusercontent.com/32263069/50114240-f5b33800-023b-11e9-86ed-55e06a4a3786.png)
 
