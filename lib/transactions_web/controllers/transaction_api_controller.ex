@@ -5,7 +5,7 @@ defmodule TransactionsWeb.TransactionApiController do
 
   def index(conn, _params) do
     transactions = get_user_transactions()
-    File.read("data/transactions_10k.json")
+    File.read("data/1k.json")
     |> handle_json
     |> get_merchant(transactions)
     |> insert_missing_merchants
@@ -15,8 +15,7 @@ defmodule TransactionsWeb.TransactionApiController do
 
   def get_user_transactions do
     query = from p in Transaction,
-     select: %{description: p.description}
-      #Transactions.Repo.all(query)
+     select: %{"description" => p.description}
       stream = Transactions.Repo.stream(query)
       Transactions.Repo.transaction(fn() ->
         Enum.to_list(stream)
@@ -40,25 +39,18 @@ defmodule TransactionsWeb.TransactionApiController do
 
   def handle_json({:ok, body}) do
     {:ok, body} = {:ok, Poison.Parser.parse!(body)}
-    for %{"description" => description} <- body do
-     %{description: description}
-    end
+    body
   end
 
   def get_merchant(descriptions, {:ok, body}) do
-    tr_result = for transaction <- body do
-      %{description: transaction.description}
-    end
-    MapSet.difference(MapSet.new(descriptions), MapSet.new(tr_result))
-
-
+   MapSet.difference(MapSet.new(descriptions), MapSet.new(body))
   end
 
   def insert_missing_merchants(missing_merchants) do
-    for res <- missing_merchants do
-      changeset = Transaction.changeset(%Transaction{}, %{description: res.description, merchant: "UNKNOWN"})
-      Transactions.Repo.insert(changeset)
-     end
+    changeset = for %{"description" => description} <- missing_merchants do
+      %{description: description, merchant: "UNKNOWN", value: "10"}
+    end
+    Transactions.Repo.insert_all(Transaction, changeset)
   end
 
 end
