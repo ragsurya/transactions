@@ -5,7 +5,7 @@ defmodule TransactionsWeb.TransactionApiController do
 
   def index(conn, _params) do
     transactions = get_user_transactions()
-    File.read("data/less_transactions.json")
+    File.read("data/transactions_10k.json")
     |> handle_json
     |> get_merchant(transactions)
     |> insert_missing_merchants
