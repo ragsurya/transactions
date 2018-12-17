@@ -66,6 +66,6 @@ total time connections are kept open: 100 seconds
 
 ## Application screenshots
 
-![image](https://user-images.githubusercontent.com/32263069/50114184-d4524c00-023b-11e9-905f-1b32374fafda.png)
+![image](https://user-images.githubusercontent.com/32263069/50117575-53984d80-0245-11e9-8311-2d5392dbb987.png)
 ![image](https://user-images.githubusercontent.com/32263069/50114240-f5b33800-023b-11e9-86ed-55e06a4a3786.png)
 
