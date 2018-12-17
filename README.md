@@ -56,3 +56,15 @@ Few URLs to help with ( can be found in router.ex)
 
 This app is built on Elixir which runs on the BEAM VM. Since it is naturally designed for high concurrency, fault tolerance and low latency I have taken advantage of these great features to build this app. Some key things to call out are the usage of `Repo.stream`. The same can be done with Ecto query itself but the advantage of using stream is it uses lazy loading; avoids fetching everything at once and instead fetches data in iterative cycles, performing operations on each record along the way. 
 
+Here is a small load test that was done on the api using a tool called `wrk`. 
+**Environment**: Macbook Pro development machine (multiple other process running)
+Cores: 8
+RAM: 16GB
+
+**Configuration**
+threads: 24
+open connections: 100
+total time: 100 seconds
+
+
+This is 
