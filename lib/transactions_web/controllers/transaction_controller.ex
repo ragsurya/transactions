@@ -1,15 +1,50 @@
 defmodule TransactionsWeb.TransactionController do
   use TransactionsWeb, :controller
+  import Ecto.Query, only: [from: 2]
   alias TransactionsWeb.Transaction
 
   def index(conn, _params) do
-    transactions = Transactions.Repo.all(Transaction)
-    content = File.read("data/less_transactions.json")
+    transactions = get_user_transactions()
+    File.read("data/less_transactions.json")
     |> handle_json
     |> get_merchant(transactions)
     |> insert_missing_merchants
-    render conn, "index.html", transactions: transactions
+
+    render conn, "index.html", transactions: get_updated_records() |> process_updated_records
+
+
+
+    # transactions = Transactions.Repo.all(Transaction)
+    # content = File.read("data/less_transactions.json")
+    # |> handle_json
+    # |> get_merchant(transactions)
+    # |> insert_missing_merchants
+    # render conn, "index.html", transactions: transactions
   end
+
+  def get_user_transactions do
+    query = from p in Transaction,
+     select: %{description: p.description}
+      #Transactions.Repo.all(query)
+      stream = Transactions.Repo.stream(query)
+      Transactions.Repo.transaction(fn() ->
+        Enum.to_list(stream)
+      end)
+  end
+
+  def process_updated_records(records) do
+    {:ok, items} = records
+    items
+  end
+  def get_updated_records() do
+    query = from p in Transaction,
+     select: %{description: p.description, merchant: p.merchant, value: p.value }
+      stream = Transactions.Repo.stream(query)
+      Transactions.Repo.transaction(fn() ->
+        Enum.to_list(stream)
+      end)
+  end
+
 
   def create(conn, _params) do
     changeset = Transaction.changeset(%Transaction{}, %{})
@@ -45,11 +80,12 @@ defmodule TransactionsWeb.TransactionController do
     end
   end
 
-  def get_merchant(descriptions, transactions) do
-    tr_result = for transaction <- transactions do
+  def get_merchant(descriptions, {:ok, body}) do
+    tr_result = for transaction <- body do
       %{description: transaction.description}
     end
-     MapSet.difference(MapSet.new(descriptions), MapSet.new(tr_result))
+    MapSet.difference(MapSet.new(descriptions), MapSet.new(tr_result))
+
 
   end
 

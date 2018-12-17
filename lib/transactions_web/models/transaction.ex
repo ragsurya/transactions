@@ -4,7 +4,7 @@ defmodule TransactionsWeb.Transaction do
   schema "transactions" do
     field :description, :string
     field :merchant, :string
-    field :value, :string
+    field :value, :string, default: "10"
   end
 
   def changeset(struct, params \\ %{}) do
