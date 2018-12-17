@@ -4,6 +4,10 @@ defmodule TransactionsWeb.TransactionController do
 
   def index(conn, _params) do
     transactions = Transactions.Repo.all(Transaction)
+    content = File.read("data/less_transactions.json")
+    |> handle_json
+    |> get_merchant(transactions)
+    |> insert_missing_merchants
     render conn, "index.html", transactions: transactions
   end
 
@@ -33,4 +37,28 @@ defmodule TransactionsWeb.TransactionController do
     |> put_flash(:info, "Topic deleted")
     |> redirect(to: Routes.transaction_path(conn, :index))
   end
+
+  def handle_json({:ok, body}) do
+    {:ok, body} = {:ok, Poison.Parser.parse!(body)}
+    for %{"description" => description} <- body do
+     %{description: description}
+    end
+  end
+
+  def get_merchant(descriptions, transactions) do
+    tr_result = for transaction <- transactions do
+      %{description: transaction.description}
+    end
+     MapSet.difference(MapSet.new(descriptions), MapSet.new(tr_result))
+
+  end
+
+  def insert_missing_merchants(missing_merchants) do
+    for res <- missing_merchants do
+      changeset = Transaction.changeset(%Transaction{}, %{description: res.description, merchant: "UNKNOWN"})
+      Transactions.Repo.insert(changeset)
+     end
+  end
+
+
 end

@@ -20,12 +20,14 @@ defmodule TransactionsWeb.Router do
     get "/transactions", TransactionController, :create
     post "/transactions/new", TransactionController, :new
 
-    resources "/", TransactionController
+    resources "/transactions", TransactionController
 
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", TransactionsWeb do
-  #   pipe_through :api
-  # end
+  #Other scopes may use custom stacks.
+  scope "/api", TransactionsWeb do
+    pipe_through :api
+
+    get "/transactions", TransactionApiController, :index
+  end
 end

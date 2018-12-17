@@ -5,10 +5,10 @@
     <li class="collection-item">
       <%= transaction.description %> 
       <%= content_tag(:span,  "£#{transaction.value}" , class: "") %>
-      <div class="right">
+      <!-- <div class="right">
         
         <%= link "Delete", to: Routes.transaction_path(@conn, :delete, transaction), method: :delete, class: "waves-effect waves-light btn-small red" %>
-      </div>
+      </div> -->
        <br /> <%= transaction.merchant %>
     </li>
   <% end %>
