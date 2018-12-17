@@ -20,7 +20,9 @@ There are 2 versions of this app
 
 Below is the architectural respresentation of the application. The blue portion is the API part of the application while the red is the MVC part of the application.
 
-A pre configured json data with transaction description is read form the app and all the descriptions are compared to the rows in DB to get the merchant name. if no matching record exists in DB for the corresponding description, a new record is created with merchant name `UNKNOWN`
+> A pre configured json data with transaction description is read form the app and all the descriptions are compared to the rows in DB to get the merchant name. if no matching record exists in DB for the corresponding description, a new record is created with merchant name `UNKNOWN`. 
+
+![image](https://user-images.githubusercontent.com/32263069/50113614-5f324700-023a-11e9-9e93-0a90f2e8ed69.png)
 
 ## Installation
 
@@ -55,4 +57,22 @@ Few URLs to help with ( can be found in router.ex)
 ## Scalability
 
 This app is built on Elixir which runs on the BEAM VM. Since it is naturally designed for high concurrency, fault tolerance and low latency I have taken advantage of these great features to build this app. Some key things to call out are the usage of `Repo.stream`. The same can be done with Ecto query itself but the advantage of using stream is it uses lazy loading; avoids fetching everything at once and instead fetches data in iterative cycles, performing operations on each record along the way. 
+
+Here is a small load test that was done on the api using a tool called `wrk`. 
+**Environment**: Macbook Pro development machine (multiple other process running)
+Cores: 8
+RAM: 16GB
+
+**Configuration**
+threads: 24
+open connections: 100
+total time: 100 seconds
+
+![image](https://user-images.githubusercontent.com/32263069/50113493-f9de5600-0239-11e9-8e27-40aa61d96cb6.png)
+
+## Application screenshots
+
+![image](https://user-images.githubusercontent.com/32263069/50114184-d4524c00-023b-11e9-905f-1b32374fafda.png)
+![image](https://user-images.githubusercontent.com/32263069/50113924-38284500-023b-11e9-8a09-fe536ed8b7d8.png)
+![image](https://user-images.githubusercontent.com/32263069/50114240-f5b33800-023b-11e9-86ed-55e06a4a3786.png)
 
