@@ -20,7 +20,9 @@ There are 2 versions of this app
 
 Below is the architectural respresentation of the application. The blue portion is the API part of the application while the red is the MVC part of the application.
 
-A pre configured json data with transaction description is read form the app and all the descriptions are compared to the rows in DB to get the merchant name. if no matching record exists in DB for the corresponding description, a new record is created with merchant name `UNKNOWN`
+> A pre configured json data with transaction description is read form the app and all the descriptions are compared to the rows in DB to get the merchant name. if no matching record exists in DB for the corresponding description, a new record is created with merchant name `UNKNOWN`. 
+
+![image](https://user-images.githubusercontent.com/32263069/50113614-5f324700-023a-11e9-9e93-0a90f2e8ed69.png)
 
 ## Installation
 
@@ -66,5 +68,11 @@ threads: 24
 open connections: 100
 total time: 100 seconds
 
+![image](https://user-images.githubusercontent.com/32263069/50113493-f9de5600-0239-11e9-8e27-40aa61d96cb6.png)
 
-This is 
+## Application screenshots
+
+![image](https://user-images.githubusercontent.com/32263069/50113893-1e86fd80-023b-11e9-8cbb-831f3a5f8722.png)
+![image](https://user-images.githubusercontent.com/32263069/50113924-38284500-023b-11e9-8a09-fe536ed8b7d8.png)
+![image](https://user-images.githubusercontent.com/32263069/50113946-41b1ad00-023b-11e9-88d2-49587643eeb0.png)
+
