@@ -35,8 +35,6 @@ defmodule TransactionsWeb.TransactionApiController do
       end)
   end
 
-
-
   def handle_json({:ok, body}) do
     {:ok, body} = {:ok, Poison.Parser.parse!(body)}
     body

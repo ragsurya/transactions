@@ -11,15 +11,6 @@ defmodule TransactionsWeb.TransactionController do
     |> insert_missing_merchants
 
     render conn, "index.html", transactions: get_updated_records() |> process_updated_records
-
-
-
-    # transactions = Transactions.Repo.all(Transaction)
-    # content = File.read("data/less_transactions.json")
-    # |> handle_json
-    # |> get_merchant(transactions)
-    # |> insert_missing_merchants
-    # render conn, "index.html", transactions: transactions
   end
 
   def get_user_transactions do

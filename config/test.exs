@@ -11,8 +11,8 @@ config :logger, level: :warn
 
 # Configure your database
 config :transactions, Transactions.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: "raghavsurya",
+  password: "",
   database: "transactions_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
