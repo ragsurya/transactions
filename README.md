@@ -7,8 +7,9 @@ A small app built on Elixir & Phoenix framework that displays the transactions o
 There are 2 versions of this app
 
 1. The MVC app which serves the UI to see the list of transactions
-    - This also has an admin screen to create a transaction and immediately see it added on the list of transactions (path: <hostname:port>/transactions)
-2. The API part - built as a microservice which serves the transactions in json format (path: <hostname:port>/api/transactions)
+    - This also has an admin screen to create a transaction and immediately see it added on the list of transactions (path: `hostname:port`/transactions)
+2. The API part - built as a microservice which serves the transactions in json format (path: <
+`hostname:port`/api/transactions)
 
 ## Architecture
 
