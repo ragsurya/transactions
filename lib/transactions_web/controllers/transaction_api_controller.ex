@@ -5,12 +5,12 @@ defmodule TransactionsWeb.TransactionApiController do
 
   def index(conn, _params) do
     transactions = get_user_transactions()
-    File.read("data/1k.json")
+    json conn, File.read("data/less_transactions.json")
     |> handle_json
     |> get_merchant(transactions)
     |> insert_missing_merchants
+    |> return_all_records
 
-    json conn, get_updated_records() |> process_updated_records
   end
 
   def get_user_transactions do
@@ -41,15 +41,65 @@ defmodule TransactionsWeb.TransactionApiController do
   end
 
   def get_merchant(descriptions, {:ok, body}) do
-   MapSet.difference(MapSet.new(descriptions), MapSet.new(body))
+    {MapSet.intersection(MapSet.new(descriptions), MapSet.new(body)), MapSet.difference(MapSet.new(descriptions), MapSet.new(body))}
   end
 
-  def insert_missing_merchants(missing_merchants) do
-    changeset = for %{"description" => description} <- missing_merchants do
-      %{description: description, merchant: "UNKNOWN", value: "10"}
+  def insert_missing_merchants({existing_merchants, missing_merchants}) do
+   updated_records = for %{"description" => description} <- missing_merchants do
+      merchant = merchant_resolver(description)
+      cond do
+        merchant == nil  ->
+        changeset = Transaction.changeset(%Transaction{}, %{description: description, merchant: "UNKNOWN"})
+        Transactions.Repo.insert(changeset)
+        %{description: description, merchant: "UNKNOWN"}
+
+        true ->
+          %{description: description, merchant: merchant}
+      end
+
     end
-    Transactions.Repo.insert_all(Transaction, changeset)
+    existing_merchant_descriptions =  for %{"description" => description} <- existing_merchants do description end
+    query = from p in Transaction,
+        where: p.description in ^existing_merchant_descriptions,
+        select: %{description: p.description, merchant: p.merchant}
+
+        stream = Transactions.Repo.stream(query)
+        Transactions.Repo.transaction(fn() ->
+          updated_records ++ Enum.to_list(stream)
+        end)
   end
+
+  def return_all_records({:ok, records}) do
+    IO.inspect records
+
+    records
+  end
+
+  def merchant_resolver(incoming_description) do
+    [head | _ ] = String.split(incoming_description)
+    query = from t in Transaction,
+      where: like(t.description, ~s(#{head}%)),
+      select: %{description: t.description, merchant: t.merchant}
+
+      result =  Transactions.Repo.all(query);
+      IO.inspect result
+    cond do
+      length(result) > 0 ->
+
+        value = Enum.fetch(Enum.filter(result, fn %{description: description} ->
+          length(String.split(incoming_description)) == length(String.split(description))
+        end), 0)
+        IO.inspect
+        IO.inspect value
+        case value do
+          {:ok, %{merchant: merchant}} ->
+              merchant
+          :error ->
+        end
+         true ->
+      end
+
+    end
 
 end
 

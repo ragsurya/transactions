@@ -4,7 +4,7 @@
   <%= for transaction <- @transactions do %>
     <li class="collection-item">
       <%= transaction.description %> 
-      <%= content_tag(:span,  "£#{transaction.value}" , class: "") %>
+      
        <br /> <%= transaction.merchant %>
     </li>
   <% end %>

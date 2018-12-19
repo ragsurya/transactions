@@ -10,7 +10,7 @@ defmodule TransactionsWeb.Transaction do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:description, :merchant, :value])
-    |> validate_required([:description])
+    |> validate_required([:description, :merchant])
   end
 
 end
