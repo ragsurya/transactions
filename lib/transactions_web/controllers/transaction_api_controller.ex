@@ -70,8 +70,6 @@ defmodule TransactionsWeb.TransactionApiController do
   end
 
   def return_all_records({:ok, records}) do
-    IO.inspect records
-
     records
   end
 
@@ -89,8 +87,6 @@ defmodule TransactionsWeb.TransactionApiController do
         value = Enum.fetch(Enum.filter(result, fn %{description: description} ->
           length(String.split(incoming_description)) == length(String.split(description))
         end), 0)
-        IO.inspect
-        IO.inspect value
         case value do
           {:ok, %{merchant: merchant}} ->
               merchant

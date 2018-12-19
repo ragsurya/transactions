@@ -70,7 +70,6 @@ defmodule TransactionsWeb.TransactionController do
   end
 
   def return_all_records({:ok, records}) do
-    IO.inspect records
 
     records
   end
@@ -82,7 +81,6 @@ defmodule TransactionsWeb.TransactionController do
       select: %{description: t.description, merchant: t.merchant}
 
       result =  Transactions.Repo.all(query);
-      IO.inspect result
     cond do
       length(result) > 0 ->
 
