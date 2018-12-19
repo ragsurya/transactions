@@ -1,6 +1,6 @@
 defmodule TransactionsWeb.TransactionController do
   use TransactionsWeb, :controller
-  import Ecto.Query, only: [from: 2]
+  import Ecto.Query
   alias TransactionsWeb.Transaction
 
   def index(conn, _params) do
@@ -39,9 +39,9 @@ defmodule TransactionsWeb.TransactionController do
     body
   end
 
-  @spec get_merchant(any(), {:ok, any()}) :: {MapSet.t(any()), MapSet.t(any())}
   def get_merchant(descriptions, {:ok, body}) do
-    {MapSet.intersection(MapSet.new(descriptions), MapSet.new(body)), MapSet.difference(MapSet.new(descriptions), MapSet.new(body))}
+    #IO.inspect descriptions
+    {descriptions, MapSet.difference(MapSet.new(descriptions), MapSet.new(body))}
   end
 
   def insert_missing_merchants({existing_merchants, missing_merchants}) do
@@ -58,18 +58,18 @@ defmodule TransactionsWeb.TransactionController do
       end
 
     end
-    existing_merchant_descriptions =  for %{"description" => description} <- existing_merchants do description end
-    query = from p in Transaction,
-        where: p.description in ^existing_merchant_descriptions,
-        select: %{description: p.description, merchant: p.merchant}
+    updated_merchants = for %{"description" => description} <- existing_merchants do
+     merchant = Transactions.Repo.one(from p in Transaction,
+      where: p.description == ^description,
+      select: p.merchant)
+      %{description: description, merchant: merchant}
+    end
+      IO.inspect updated_records ++ updated_merchants
+      updated_records ++ Enum.to_list(updated_merchants)
+    end
 
-        stream = Transactions.Repo.stream(query)
-        Transactions.Repo.transaction(fn() ->
-          updated_records ++ Enum.to_list(stream)
-        end)
-  end
-
-  def return_all_records({:ok, records}) do
+  @spec return_all_records(any()) :: any()
+  def return_all_records(records) do
 
     records
   end
